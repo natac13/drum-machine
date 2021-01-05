@@ -1,5 +1,5 @@
 module.exports = {
-  pathPrefix: 'drum-machine',
+  pathPrefix: '/drum-machine',
   siteMetadata: {
     title: 'Drum Machine',
     author: 'Sean Campbell',
