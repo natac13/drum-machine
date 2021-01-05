@@ -1,0 +1,33 @@
+name: Deploy
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Node Setup
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+
+      - name: Install packages
+        run: npm install
+
+      - name: Build website
+        run: npm run build -- --prefix-paths
+
+      - name: Pre deploy
+        run: 'rm -rf node_modules/.cache && touch public/.nojekyll'
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: public # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
